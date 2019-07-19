@@ -69,14 +69,32 @@ _prototype.extend = function(traget, source) {
 }
 
 
-_prototype.setQuerystring = function(url, params, opts) {
-    
+_prototype.setQueryString = function(url, params, opts) {
+    if(this.isObject(url)) {
+        // opts = 
+    }
 }
 
-// let url = 'http://h5.dev.weidian.com:9000/pages/privilege-center.html?d=2'
+/**
+ * 获取参数 返回一个参数组成的对象
+ */
+_prototype.getQueryString = function(url, opts) {
+    let href = _href
+    if(this.isObject(url)) {
+        opts = url
+        url = href
+    }
+    opts = this.extend({raw: false}, opts || {})
+    url = url || href
+    let params = {}
+        queryString = getParamsString(url)
 
-// // let a = url.match(paramsRegxp)
+    queryString && queryString.replace(paramsRegxp, (a, name, c, value) => {
+        params[name] = opts.raw ? value : !!value ? decodeURIComponent(value) : undefined
+    })
+    return params
+}
 
-let core = new Base()
-let b = []
-console.log(core.isNumber(b))
+let base = new Base()
+
+export default base
